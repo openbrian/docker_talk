@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Docker</title>
+
+		<meta name="description" content="An open platform for distributed applications for developers and sysadmins">
+		<meta name="author" content="Brian DeRocher">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+.callout
+	{
+	color: #faaf42;
+	font-weight: bold !important;
+	}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Introduction to Docker</h1>
+					<h3>An open platform for distributed applications for developers and sysadmins</h3>
+					<p>
+						<small>by <a href="http://brian.derocher.org">Brian DeRocher</a> / <a href="http://twitter.com/openbrian">@openbrian</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Dock What?!</h2>
+					<p>
+Docker is a <span class='callout'>container</span> which developers build around their applications in order to <span class='callout'>ship</span> them into operating environments such as the cloud.
+					</p>
+					<img src='img/docker_logo.png' />
+					<a href="https://www.docker.com/">https://www.docker.com/</a>
+				</section>
+
+				<section>
+					<h1>Executive Summary</h1>
+					<img src='img/push_to_prod.png' style='width: 30%; float: left'/>
+					<ol style='width: 60%;'>
+						<li>Build a docker image</li>
+						<li>Push to production</li>
+						<li>Push to production</li>
+						<li>Push to production</li>
+						<li>Push to production</li>
+						<li>Push to production</li>
+						<li>Profit</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Have you ever had these issues?</h2>
+					<ul>
+						<li class="fragment">App works in Dev but not in Prod.  Why?</li>
+						<li class="fragment">As a developer, your new project depends on Python 2.3, but previous project depends on Python 2.2</li>
+						<li class="fragment">Developer says "Please deploy on Apache 2.2".  Sysadmin deploys to "more secure" Apache 2.4</li>
+						<li class="fragment">Developer says "Deploy on Ubuntu, Nginx, Memcache, Oracle, libgd, libcrypt...., and put this file here".  Sysadmin says "no".
+					</ul>
+				</section>
+
+				<section>
+					<h2>Solution: Docker</h2>
+					<ul>
+						<li class="fragment">Isolated environment from other projects</li>
+						<li class="fragment">Consistent environment across developers</li>
+						<li class="fragment">Consistent environment from dev to ops</li>
+						<li class="fragment">Image contains all dependencies</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Context</h1>
+					<img src='img/docker_vs_vmware.jpg' style='width: 45%; float: right'/>
+					<ul style='width: 50%;'>
+						<li>virtual machine</li>
+						<li>build environment, like virtualenv</li>
+						<li>vagrant</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h1>Docker: In a Nutshell</h1>
+						<table>
+							<tr>
+								<td>Daemon</td>
+								<td>Images</td>
+								<td>Containers</td>
+								<td>Hub</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h2>Daemon</h2>
+<pre><code data-trim contenteditable>
+$ apt-get install docker
+</code></pre>
+					</section>
+					<section>
+						<h2>Images</h2>
+<p>Pull pre-existing imags from the Hub</p>
+<pre><code data-trim contenteditable>
+$ docker pull leaflet/leaflet
+</code></pre>
+<p>Build images from a Dockerfile</p>
+<pre><code data-trim contenteditable>
+$ docker build -t noblis/leaflet .
+</code></pre>
+<p>List your docker images</p>
+<pre><code data-trim contenteditable>
+$ docker images
+</code></pre>
+					</section>
+					<section>
+						<h2>Containers</h2>
+<p>Start an independent container from an image</p>
+<pre><code data-trim contenteditable>
+$ docker run -it -p 3000:80 -V /home/amr/app:/opt noblis/leaflet
+</code></pre>
+<p>List the running and non-running containers</p>
+<pre><code data-trim contenteditable>
+$ docker ps -a
+</code></pre>
+<p>Save container changes as a new image</p>
+<pre><code data-trim contenteditable>
+$ docker commit ... TODO
+</code></pre>
+<p>How: Copy on Write filesystem</p>
+					</section>
+					<section>
+						<h2>Hub</h2>
+<p>Publish new images on the Docker Hub</p>
+<pre><code data-trim contenteditable>
+$ apt-get push
+</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h1>Demo</h1>
+				</section>
+
+				<section>
+					<h1>Questions?</h1>
+				</section>
+
+				<section>
+					<h1>Introduction to Docker</h1>
+					<h2>Brian DeRocher</h2>
+					<h3>@openbrian</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
