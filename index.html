@@ -68,15 +68,18 @@ Docker is a <span class='callout'>container</span> which developers build around
 				<section>
 					<h1>Executive Summary</h1>
 					<img src='img/push_to_prod.png' style='width: 30%; float: left'/>
-					<ol style='width: 60%;'>
-						<li>Build a docker image</li>
-						<li>Push to production</li>
-						<li>Push to production</li>
-						<li>Push to production</li>
-						<li>Push to production</li>
-						<li>Push to production</li>
-						<li>Profit</li>
-					</ol>
+					<ul style='width: 60%;'>
+						<li>Reduce uncertainty when building and deploying software</li>
+						<li>Standardize your deployments</li>
+						<li>Deploy more often without anxiety</li>
+						<li>Reap value of new features earlier</li>
+						<li>Integrate with the cloud
+							<ul>
+								<li>AWS Elastic Beanstalk</li>
+								<li>Google Container Engine</li>
+								<li>Joyent, IBM Softlayer, Microsoft Azure, Rackspace</li>
+						</li>
+					</ul>
 				</section>
 
 				<section>
@@ -85,7 +88,8 @@ Docker is a <span class='callout'>container</span> which developers build around
 						<li class="fragment">App works in Dev but not in Prod.  Why?</li>
 						<li class="fragment">As a developer, your new project depends on Python 2.3, but previous project depends on Python 2.2</li>
 						<li class="fragment">Developer says "Please deploy on Apache 2.2".  Sysadmin deploys to "more secure" Apache 2.4</li>
-						<li class="fragment">Developer says "Deploy on Ubuntu, Nginx, Memcache, Oracle, libgd, libcrypt...., and put this file here".  Sysadmin says "no".
+						<li class="fragment">Developer says "Deploy on Ubuntu, Nginx, Memcache, Oracle, libgd, libcrypt...., and put this file here".  Sysadmin says "no".</li>
+						<li class="fragment">Push to build server (CI), QA server, local network (dogfood), public cloud, mobile, on premise</li>
 					</ul>
 				</section>
 
@@ -101,11 +105,14 @@ Docker is a <span class='callout'>container</span> which developers build around
 
 				<section>
 					<h1>Context</h1>
-					<img src='img/docker_vs_vmware.jpg' style='width: 45%; float: right'/>
-					<ul style='width: 50%;'>
+					<img src='img/docker_vs_vmware.png' style='width: 50%; float: right'/>
+					<ul style='width: 45%;'>
+						<li>build environment, like Python's virtualenv</li>
+						<li>1982 - chroot , bsd jails - filesystem protection only</li>
+						<li>LXC adds userspace isolotion</li>
+						<li class="fragment callout">Docker - cgroups</li>
 						<li>virtual machine</li>
-						<li>build environment, like virtualenv</li>
-						<li>vagrant</li>
+						<li>Vagrant</li>
 					</ul>
 				</section>
 
@@ -120,6 +127,7 @@ Docker is a <span class='callout'>container</span> which developers build around
 								<td>Hub</td>
 							</tr>
 						</table>
+						<p>See also: Kitematic</p>
 					</section>
 					<section>
 						<h2>Daemon</h2>
@@ -131,12 +139,15 @@ $ apt-get install docker
 						<h2>Images</h2>
 <p>Pull pre-existing imags from the Hub</p>
 <pre><code data-trim contenteditable>
-$ docker pull leaflet/leaflet
+$ docker pull django
 </code></pre>
+<a href="https://hub.docker.com/search/?q=django&amp;page=1&amp;isAutomated=0&amp;isOfficial=0&amp;starCount=0&amp;pullCount=0">django</a>
+
 <p>Build images from a Dockerfile</p>
 <pre><code data-trim contenteditable>
-$ docker build -t noblis/leaflet .
+$ docker build -t noblis/grailsapp .
 </code></pre>
+
 <p>List your docker images</p>
 <pre><code data-trim contenteditable>
 $ docker images
@@ -146,7 +157,7 @@ $ docker images
 						<h2>Containers</h2>
 <p>Start an independent container from an image</p>
 <pre><code data-trim contenteditable>
-$ docker run -it -p 3000:80 -V /home/amr/app:/opt noblis/leaflet
+$ docker run -it -p 3000:80 -V /home/amr/app:/opt noblis/grailsapp
 </code></pre>
 <p>List the running and non-running containers</p>
 <pre><code data-trim contenteditable>
@@ -154,9 +165,8 @@ $ docker ps -a
 </code></pre>
 <p>Save container changes as a new image</p>
 <pre><code data-trim contenteditable>
-$ docker commit ... TODO
+$ docker commit CONTAINER_ID noblis/grailsapp:version3
 </code></pre>
-<p>How: Copy on Write filesystem</p>
 					</section>
 					<section>
 						<h2>Hub</h2>
@@ -168,6 +178,19 @@ $ apt-get push
 				</section>
 
 				<section>
+					<img src="img/docker_commands.png" />
+				</section>
+
+				<section>
+					<h1>Docker Link</h1>
+					<p>Each docker container may EXPOSE ports.  "Linking" will bridge the port from one container to a port on another.  For example EXPOSE 5432 PostgreSQL database with tag db.  On web container use</p>
+<pre><code>
+docker run --name web --link db:thedb noblis/webapp python app.py
+</code></pre>
+					<p>Then web container has environment variables defiend THEDB_NAME, THEDB_HOST, THEDB_PORT.  And in the web app configuration connect to tcp://$THEDB_HOST:$THEDB_PORT/$THEDB_NAME.</p>
+				</section>
+
+				<section>
 					<h1>Demo</h1>
 				</section>
 
@@ -176,9 +199,9 @@ $ apt-get push
 				</section>
 
 				<section>
-					<h1>Introduction to Docker</h1>
-					<h2>Brian DeRocher</h2>
-					<h3>@openbrian</h3>
+					<img src='img/dumont.jpg' style='width: 50%; float: right' />
+					<h3>Brian DeRocher</h3>
+					<p>@openbrian</p>
 				</section>
 
 			</div>
