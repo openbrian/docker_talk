@@ -21,10 +21,12 @@
   "engines": {
     "node": "~0.10.0"
   },
-  "dependencies": {
-    "underscore": "~1.5.1",
+  "broken_dependencies": {
     "express": "~2.5.9",
     "mustache": "~0.7.2",
+  }
+  "dependencies": {
+    "underscore": "~1.5.1",
     "socket.io": "~0.9.16"
   },
   "devDependencies": {
